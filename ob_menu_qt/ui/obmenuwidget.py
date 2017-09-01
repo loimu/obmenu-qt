@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from builtins import str
 from PyQt4 import QtGui, QtCore
 from ob_menu_qt.ui.obmenu import Ui_frmObmenu
 from ob_menu_qt.lib.obmenuxml import ObMenuXml
@@ -120,18 +121,18 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
                 item_type = self.ob_menu.get_item_tag(element)
 
                 # label
-                if "label" in element.keys():
+                if "label" in list(element.keys()):
                     child.setText(self.COL_LABEL, element.get("label"))
 
                 # type
                 child.setText(self.COL_TYPE, item_type)
 
                 # id
-                if "id" in element.keys():
+                if "id" in list(element.keys()):
                     child.setText(self.COL_ID, element.get("id"))
 
                 # icon path
-                if "icon" in element.keys():
+                if "icon" in list(element.keys()):
                     child.setText(self.COL_ICON, element.get("icon"))
 
                 # previously selected
@@ -145,20 +146,20 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
 
                 if item_type == "menu":
                     # icon
-                    if "icon" in element.keys():
+                    if "icon" in list(element.keys()):
                         child.setIcon(self.COL_LABEL, QtGui.QIcon(element.get("icon")))
                     else:
                         child.setIcon(self.COL_LABEL, QtGui.QIcon(self.icon_path + "document-open-folder.png"))
                     # if a menu does not have label
                     # the id attribute is used instead
-                    if "label" not in element.keys():
+                    if "label" not in list(element.keys()):
                         label = element.get("id")
                         child.setText(self.COL_LABEL, label)
                     if len(element):
                         self.load_menu(element, child)
                 if item_type == "item":
                     #icon
-                    if "icon" in element.keys():
+                    if "icon" in list(element.keys()):
                         child.setIcon(self.COL_LABEL, QtGui.QIcon(element.get("icon")))
                     else:
                         child.setIcon(self.COL_LABEL, QtGui.QIcon(self.icon_path + "application-x-desktop.png"))
@@ -435,17 +436,17 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
             (id, label, action, execute_, item_type, icon, prompt) = self.read_item_fields()
 
             if id and len(id):
-                id = unicode(id)
+                id = str(id)
 
             if prompt and len(prompt):
-                prompt = unicode(prompt)
+                prompt = str(prompt)
 
             if item_type == "item":
-                self.ob_menu.edit_item("item", parent_id, index, unicode(label), unicode(action), unicode(execute_),
-                                       unicode(icon), new_id=id, prompt=prompt)
+                self.ob_menu.edit_item("item", parent_id, index, str(label), str(action), str(execute_),
+                                       str(icon), new_id=id, prompt=prompt)
 
             elif item_type == "menu":
-                self.ob_menu.edit_item("menu", parent_id, index, label=unicode(label), new_id=id, icon=unicode(icon))
+                self.ob_menu.edit_item("menu", parent_id, index, label=str(label), new_id=id, icon=str(icon))
             
             current_item.setText(self.COL_LABEL, label)
             current_item.setText(self.COL_ACTION, action)
