@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 from lxml import etree
 import copy
 
@@ -31,8 +32,8 @@ class ObMenuXml(object):
             self.menu = root[0]
             return True
 
-        except (IOError, Exception), e:
-            print e
+        except (IOError, Exception) as e:
+            print(e)
             return False
 
     def new_file(self):
@@ -174,8 +175,8 @@ class ObMenuXml(object):
 
             self.tree.write(file_path, pretty_print=True, xml_declaration=True, encoding="utf-8")
             return True
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
             return False
 
     def add_item(self, label, execute_, action="Execute", parent_id="root-menu", index=0):

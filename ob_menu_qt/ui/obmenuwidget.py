@@ -287,7 +287,7 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
             if not os.path.isfile(menu_path):
                 raise Exception("The basic configuration file cannot be created. Is openbox installed?")
 
-        except (IOError, Exception), e:
+        except (IOError, Exception) as e:
 
             QtGui.QMessageBox.warning(self, "Error loading menu file", e)
             return None
