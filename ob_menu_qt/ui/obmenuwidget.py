@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from builtins import str
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 from ob_menu_qt.ui.obmenu import Ui_frmObmenu
 from ob_menu_qt.lib.obmenuxml import ObMenuXml
-import os, shutil
+import os
+import shutil
 
-class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
+
+class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
     """
     Main widget container designed to deal with
     the obmenuxml module, QtCreator generated
@@ -28,7 +30,7 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
         """
         Constructs the main window
         """
-        super(QtGui.QWidget, self).__init__()
+        super(QtWidgets.QWidget, self).__init__()
         self.setupUi(self)
         self.icon_path = icon_path
 
@@ -49,7 +51,7 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
         actions.append("Restart")
         actions.append("Exit")
         self.cmbAction.addItems(actions)
-        
+
         # all controls disabled
         self.txtLabel.setDisabled(True)
         self.txtID.setDisabled(True)
@@ -61,7 +63,7 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
         self.btnPrompt.setIcon(QtGui.QIcon(icon_path + "view-conversation-balloon.png"))
 
         # tree columns
-        self.treeMenu.header().setResizeMode(self.COL_LABEL, QtGui.QHeaderView.ResizeToContents)
+        #self.treeMenu.header().setResizeMode(self.COL_LABEL, QtGui.QHeaderView.ResizeToContents)
         self.changed = False
 
         # signal connections
@@ -84,17 +86,17 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
         if self.file_path:
 
             self.ob_menu = ObMenuXml(self.file_path)
-            
+
             if not self.ob_menu.load_xml():
-                QtGui.QMessageBox.critical(self,
+                QtWidgets.QMessageBox.critical(self,
                                           "Error on XML load",
                                           "The application can't read the xml file, may be is corrupted")
                 return
-            
+
             menu = self.ob_menu.get_menu()
 
             # tree root
-            self.root_tree = QtGui.QTreeWidgetItem(self.treeMenu)
+            self.root_tree = QtWidgets.QTreeWidgetItem(self.treeMenu)
             self.root_tree.setText(self.COL_LABEL, menu.get("label"))
             self.root_tree.setText(self.COL_TYPE, self.ob_menu.get_item_tag(menu))
             self.root_tree.setText(self.COL_ID, menu.get("id"))
@@ -105,7 +107,7 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
 
     def load_menu(self, menu, parent=None):
         """
-        Iterates over all the menu nodes recursively 
+        Iterates over all the menu nodes recursively
         and creates the items for QTreeWidget
         """
         if parent is None:
@@ -117,7 +119,7 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
                 if self.ob_menu.is_comment(element):
                     continue
 
-                child = QtGui.QTreeWidgetItem(parent)
+                child = QtWidgets.QTreeWidgetItem(parent)
                 item_type = self.ob_menu.get_item_tag(element)
 
                 # label
@@ -191,7 +193,7 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
         """
         Slot: Opens an external menu file
         """
-        file_path = QtGui.QFileDialog.getOpenFileName(self,
+        file_path = QtWidgets.QFileDialog.getOpenFileName(self,
                                                       "Select a configuration file to load",
                                                       QtCore.QDir.home().path(),
                                                       "Configuration files (*.xml);;All files (*.*)")
@@ -200,15 +202,15 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
 
             # file changed
             if self.changed:
-                user_response = QtGui.QMessageBox.question(self,
+                user_response = QtWidgets.QMessageBox.question(self,
                                                            "Save the changes before load a new file",
                                                            "There are unsaved changes in the current file",
-                                                            QtGui.QMessageBox.Discard,
-                                                            QtGui.QMessageBox.Save,
-                                                            QtGui.QMessageBox.Cancel)
+                                                            QtWidgets.QMessageBox.Discard,
+                                                            QtWidgets.QMessageBox.Save,
+                                                            QtWidgets.QMessageBox.Cancel)
 
                 # unsaved changes
-                if user_response == QtGui.QMessageBox.Save:
+                if user_response == QtWidgets.QMessageBox.Save:
                     self.save_changes()
 
             # the new file is loaded
@@ -221,15 +223,15 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
         """
         # file changed
         if self.changed:
-            user_response = QtGui.QMessageBox.question(self,
+            user_response = QtWidgets.QMessageBox.question(self,
                                                        "Save the changes before to create a new file",
                                                        "There are unsaved changes in the current file",
-                                                        QtGui.QMessageBox.Discard,
-                                                        QtGui.QMessageBox.Save,
-                                                        QtGui.QMessageBox.Cancel)
+                                                        QtWidgets.QMessageBox.Discard,
+                                                        QtWidgets.QMessageBox.Save,
+                                                        QtWidgets.QMessageBox.Cancel)
 
             # unsaved changes
-            if user_response == QtGui.QMessageBox.Save:
+            if user_response == QtWidgets.QMessageBox.Save:
                 self.save_changes()
 
         # a new file is created
@@ -244,7 +246,7 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
         if title is None:
             title = "Save current menu as:"
 
-        save_file_path = QtGui.QFileDialog.getSaveFileName(self,
+        save_file_path = QtWidgets.QFileDialog.getSaveFileName(self,
                                                         title,
                                                         QtCore.QDir.home().path(),
                                                         "Configuration files (*.xml);;All files (*.*)")
@@ -290,7 +292,7 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
 
         except (IOError, Exception) as e:
 
-            QtGui.QMessageBox.warning(self, "Error loading menu file", e)
+            QtWidgets.QMessageBox.warning(self, "Error loading menu file", e)
             return None
 
         return menu_path
@@ -321,7 +323,7 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
 
         # Last selected reminder
         self._update_last_selected()
-        
+
         self.cmbAction.setDisabled(selIndex == -1)
         self.cmbAction.setCurrentIndex(selIndex)
 
@@ -400,15 +402,15 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
         Sets the changed flag and updates window title
         """
         title = str(self.parent().windowTitle())
-        
+
         if status and self.changed is False:
             self.parent().menuActionSave.setDisabled(False)
             self.parent().setWindowTitle(title + " - Unsaved changes")
-        elif status is False and self.changed is True:        
+        elif status is False and self.changed is True:
             newTitle = title[0:-18]
             self.parent().setWindowTitle(newTitle)
             self.parent().menuActionSave.setDisabled(True)
-            
+
         self.changed = status
 
     def _get_parent_id(self, item):
@@ -447,7 +449,7 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
 
             elif item_type == "menu":
                 self.ob_menu.edit_item("menu", parent_id, index, label=str(label), new_id=id, icon=str(icon))
-            
+
             current_item.setText(self.COL_LABEL, label)
             current_item.setText(self.COL_ACTION, action)
             current_item.setText(self.COL_EXECUTE, execute_)
@@ -507,7 +509,7 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
         self.ob_menu.add_item(label, action, execute_, parent_id, index)
 
         # new node for tree-view
-        child = QtGui.QTreeWidgetItem()
+        child = QtWidgets.QTreeWidgetItem()
         child.setText(self.COL_LABEL, label)
         child.setText(self.COL_TYPE, "item")
         child.setText(self.COL_ACTION, action)
@@ -523,12 +525,12 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
 
     def new_separator(self):
         """
-        Adds a new item separator 
+        Adds a new item separator
         """
         current_item = self.treeMenu.currentItem()
         parent = current_item.parent()
 
-        # Menu bounds: no items 
+        # Menu bounds: no items
         # allowed over root-menu level
         if parent is None:
             parent = current_item
@@ -541,7 +543,7 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
         self.ob_menu.add_separator(parent_id, index)
 
         # new node for tree-view
-        child = QtGui.QTreeWidgetItem()
+        child = QtWidgets.QTreeWidgetItem()
         child.setText(self.COL_TYPE, "separator")
         parent.insertChild(index, child)
 
@@ -556,7 +558,7 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
         current_item = self.treeMenu.currentItem()
         parent = current_item.parent()
 
-        # Menu bounds: no items 
+        # Menu bounds: no items
         # allowed over root-menu level
         if parent is None:
             parent = current_item
@@ -572,12 +574,12 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
         self.ob_menu.add_submenu(id, label, parent_id, index)
 
         # new node for tree-view
-        child = QtGui.QTreeWidgetItem()
+        child = QtWidgets.QTreeWidgetItem()
         child.setText(self.COL_LABEL, label)
         child.setText(self.COL_TYPE, "menu")
         child.setText(self.COL_ID, id)
 
-        default_item = QtGui.QTreeWidgetItem()
+        default_item = QtWidgets.QTreeWidgetItem()
         default_item.setText(self.COL_LABEL, "New item")
         default_item.setText(self.COL_TYPE, "item")
         default_item.setText(self.COL_ACTION, "Execute")
@@ -691,7 +693,7 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
         Slot: Updates prompt property of current item
         """
         current_prompt = self.treeMenu.currentItem().text(self.COL_PROMPT).trimmed()
-        new_prompt = QtGui.QInputDialog.getText(self, "Edit prompt message", "Prompt message: ", text=current_prompt)
+        new_prompt = QtWidgets.QInputDialog.getText(self, "Edit prompt message", "Prompt message: ", text=current_prompt)
 
         # accepted and changed
         if new_prompt[1] and new_prompt[0] != current_prompt:
@@ -720,7 +722,7 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
         Slot: called when change
         icon button is clicked
         """
-        new_icon_path = QtGui.QFileDialog.getOpenFileName(self, "Select the new icon file", "/usr/share/icons", "Images (*.png *.xpm *.jpg)")
+        new_icon_path = QtWidgets.QFileDialog.getOpenFileName(self, "Select the new icon file", "/usr/share/icons", "Images (*.png *.xpm *.jpg)")
         self.txtIcon.setText(new_icon_path)
         self.update_selected_item()
         self.set_changed()
@@ -737,8 +739,8 @@ class ObMenuWidget(Ui_frmObmenu, QtGui.QWidget):
                 self.init_tree()
                 return True
             else:
-                self.parent().statusBar().showMessage("Error saving changes", 3000)    
-        else: 
+                self.parent().statusBar().showMessage("Error saving changes", 3000)
+        else:
             self.parent().statusBar().showMessage("No chanches detected", 3000)
 
         return False
