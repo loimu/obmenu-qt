@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
-
 from PyQt5 import QtGui, QtCore, QtWidgets
 from ob_menu_qt.ui.obmenuwidget import ObMenuWidget
 from ob_menu_qt.ui.aboutwidget import ObAboutWidget
+
 
 class UiMainWindow(QtWidgets.QMainWindow):
 

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from PyQt5 import QtGui, QtCore, QtWidgets
 from ob_menu_qt.ui.obmenu import Ui_frmObmenu
 from ob_menu_qt.lib.obmenuxml import ObMenuXml
