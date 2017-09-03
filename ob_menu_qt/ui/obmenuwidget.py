@@ -88,9 +88,10 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
             self.ob_menu = ObMenuXml(self.file_path)
 
             if not self.ob_menu.load_xml():
-                QtWidgets.QMessageBox.critical(self,
-                                          "Error on XML load",
-                                          "The application can't read the xml file, may be is corrupted")
+                QtWidgets.QMessageBox.critical(
+                    self,
+                    "Error on XML load",
+                    "The application can't read the xml file, may be is corrupted")
                 return
 
             menu = self.ob_menu.get_menu()
@@ -98,7 +99,8 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
             # tree root
             self.root_tree = QtWidgets.QTreeWidgetItem(self.treeMenu)
             self.root_tree.setText(self.COL_LABEL, menu.get("label"))
-            self.root_tree.setText(self.COL_TYPE, self.ob_menu.get_item_tag(menu))
+            self.root_tree.setText(self.COL_TYPE,
+                                   self.ob_menu.get_item_tag(menu))
             self.root_tree.setText(self.COL_ID, menu.get("id"))
 
             # children items
@@ -283,7 +285,8 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
                 os.mkdir(ob_user_config_dir)
 
             # base config file is copied
-            if os.path.isfile(self.OB_ORIGINAL_FILE):
+            if os.path.isfile(self.OB_ORIGINAL_FILE) and\
+                    not os.path.isfile(menu_path):
                 shutil.copy2(self.OB_ORIGINAL_FILE, menu_path)
 
             # file was created?
