@@ -270,7 +270,6 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
             else:
                 self.parent().statusBar().showMessage("Error during file creation", 3000)
 
-
     def get_base_menu_file(self):
         """
         Gets the main openbox menu file
@@ -390,15 +389,9 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
 
     def reconfigure_openbox(self):
         """
-        Kills the openbox process
+        Runs openbox process with the built-in reconfigure option
         """
-        lines = os.popen("ps aux").read().splitlines()
-        ob = os.popen("which openbox").read().strip()
-        for line in lines:
-            if ob in " ".join(line.split()[10:]):
-                os.kill(int(line.split()[1]), 12)
-                break
-
+        os.popen("openbox --reconfigure")
 
     def set_changed(self, status=True):
         """
