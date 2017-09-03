@@ -189,7 +189,7 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
                 if item_type == "separator":
                     child.setIcon(
                         self.COL_LABEL,
-                        QtGui.QIcon(self.icon_path + "separator.png"))
+                        QtGui.QIcon.fromTheme('zoom-fit-width'))
                     child.setText(self.COL_LABEL, "---")
                     child.setText(self.COL_ACTION, "---")
                     child.setText(self.COL_EXECUTE, "---")
@@ -201,21 +201,23 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
         """
         Slot: Opens an external menu file
         """
-        file_path = QtWidgets.QFileDialog.getOpenFileName(self,
-                                                      "Select a configuration file to load",
-                                                      QtCore.QDir.home().path(),
-                                                      "Configuration files (*.xml);;All files (*.*)")
+        file_path = QtWidgets.QFileDialog.getOpenFileName(
+            self,
+            "Select a configuration file to load",
+            QtCore.QDir.home().path(),
+            "Configuration files (*.xml);;All files (*.*)")
 
         if len(file_path):
 
             # file changed
             if self.changed:
-                user_response = QtWidgets.QMessageBox.question(self,
-                                                           "Save the changes before load a new file",
-                                                           "There are unsaved changes in the current file",
-                                                            QtWidgets.QMessageBox.Discard,
-                                                            QtWidgets.QMessageBox.Save,
-                                                            QtWidgets.QMessageBox.Cancel)
+                user_response = QtWidgets.QMessageBox.question(
+                    self,
+                    "Save the changes before load a new file",
+                    "There are unsaved changes in the current file",
+                    QtWidgets.QMessageBox.Discard,
+                    QtWidgets.QMessageBox.Save,
+                    QtWidgets.QMessageBox.Cancel)
 
                 # unsaved changes
                 if user_response == QtWidgets.QMessageBox.Save:
@@ -231,12 +233,13 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
         """
         # file changed
         if self.changed:
-            user_response = QtWidgets.QMessageBox.question(self,
-                                                       "Save the changes before to create a new file",
-                                                       "There are unsaved changes in the current file",
-                                                        QtWidgets.QMessageBox.Discard,
-                                                        QtWidgets.QMessageBox.Save,
-                                                        QtWidgets.QMessageBox.Cancel)
+            user_response = QtWidgets.QMessageBox.question(
+                self,
+                "Save the changes before to create a new file",
+                "There are unsaved changes in the current file",
+                QtWidgets.QMessageBox.Discard,
+                QtWidgets.QMessageBox.Save,
+                QtWidgets.QMessageBox.Cancel)
 
             # unsaved changes
             if user_response == QtWidgets.QMessageBox.Save:
@@ -254,10 +257,11 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
         if title is None:
             title = "Save current menu as:"
 
-        save_file_path = QtWidgets.QFileDialog.getSaveFileName(self,
-                                                        title,
-                                                        QtCore.QDir.home().path(),
-                                                        "Configuration files (*.xml);;All files (*.*)")
+        save_file_path = QtWidgets.QFileDialog.getSaveFileName(
+            self,
+            title,
+            QtCore.QDir.home().path(),
+            "Configuration files (*.xml);;All files (*.*)")
 
         if len(save_file_path):
 
