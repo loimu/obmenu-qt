@@ -697,12 +697,16 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
         """
         Slot: Updates prompt property of current item
         """
-        current_prompt = self.treeMenu.currentItem().text(self.COL_PROMPT).trimmed()
-        new_prompt = QtWidgets.QInputDialog.getText(self, "Edit prompt message", "Prompt message: ", text=current_prompt)
+        current_prompt = self.treeMenu.currentItem().text(self.COL_PROMPT)\
+            .strip()
+        new_prompt = QtWidgets.QInputDialog.getText(
+            self,
+            "Edit prompt message", "Prompt message: ", text=current_prompt)
 
         # accepted and changed
         if new_prompt[1] and new_prompt[0] != current_prompt:
-            self.treeMenu.currentItem().setText(self.COL_PROMPT, new_prompt[0].trimmed())
+            self.treeMenu.currentItem().setText(
+                self.COL_PROMPT, new_prompt[0].strip())
             self.update_selected_item()
             self.set_changed()
 
@@ -712,14 +716,11 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
         """
         item = self.treeMenu.currentItem()
         parent = item.parent()
-
         # root node
         if parent is None:
             return
-
         parent_id = parent.text(self.COL_ID)
         index = self.treeMenu.currentIndex().row()
-
         self.last_selected = {"index": index, "parent_id": parent_id}
 
     def change_icon_path(self):
@@ -727,7 +728,10 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
         Slot: called when change
         icon button is clicked
         """
-        new_icon_path = QtWidgets.QFileDialog.getOpenFileName(self, "Select the new icon file", "/usr/share/icons", "Images (*.png *.xpm *.jpg)")
+        new_icon_path = QtWidgets.QFileDialog.getOpenFileName(
+            self,
+            "Select the new icon file", "/usr/share/icons",
+            "Images (*.png *.xpm *.jpg)")
         self.txtIcon.setText(new_icon_path)
         self.update_selected_item()
         self.set_changed()
@@ -747,6 +751,4 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
                 self.parent().statusBar().showMessage("Error saving changes", 3000)
         else:
             self.parent().statusBar().showMessage("No chanches detected", 3000)
-
         return False
-
