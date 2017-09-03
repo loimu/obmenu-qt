@@ -16,3 +16,6 @@ build
 
 # Debian package folder
 deb_dist
+
+# KDevelop stuff
+*.kdev4
