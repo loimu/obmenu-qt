@@ -60,7 +60,8 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
         self.txtIcon.setDisabled(True)
         self.btnChangeIcon.setDisabled(True)
         self.btnPrompt.setDisabled(True)
-        self.btnPrompt.setIcon(QtGui.QIcon(icon_path + "view-conversation-balloon.png"))
+        self.btnPrompt.setIcon(
+            QtGui.QIcon.fromTheme('view-conversation-balloon'))
 
         # tree columns
         #self.treeMenu.header().setResizeMode(self.COL_LABEL, QtGui.QHeaderView.ResizeToContents)
@@ -151,9 +152,12 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
                 if item_type == "menu":
                     # icon
                     if "icon" in list(element.keys()):
-                        child.setIcon(self.COL_LABEL, QtGui.QIcon(element.get("icon")))
+                        child.setIcon(
+                            self.COL_LABEL, QtGui.QIcon(element.get("icon")))
                     else:
-                        child.setIcon(self.COL_LABEL, QtGui.QIcon(self.icon_path + "document-open-folder.png"))
+                        child.setIcon(
+                            self.COL_LABEL,
+                            QtGui.QIcon.fromTheme('document-open-folder'))
                     # if a menu does not have label
                     # the id attribute is used instead
                     if "label" not in list(element.keys()):
@@ -164,9 +168,12 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
                 if item_type == "item":
                     #icon
                     if "icon" in list(element.keys()):
-                        child.setIcon(self.COL_LABEL, QtGui.QIcon(element.get("icon")))
+                        child.setIcon(
+                            self.COL_LABEL, QtGui.QIcon(element.get("icon")))
                     else:
-                        child.setIcon(self.COL_LABEL, QtGui.QIcon(self.icon_path + "application-x-desktop.png"))
+                        child.setIcon(
+                            self.COL_LABEL,
+                            QtGui.QIcon.fromTheme('application-x-desktop'))
                     # we need to find actions
                     if len(element):
                         action = element[0]
@@ -183,7 +190,9 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
                                     child.setText(self.COL_PROMPT, item.text)
 
                 if item_type == "separator":
-                    child.setIcon(self.COL_LABEL, QtGui.QIcon(self.icon_path + "separator.png"))
+                    child.setIcon(
+                        self.COL_LABEL,
+                        QtGui.QIcon(self.icon_path + "separator.png"))
                     child.setText(self.COL_LABEL, "---")
                     child.setText(self.COL_ACTION, "---")
                     child.setText(self.COL_EXECUTE, "---")
