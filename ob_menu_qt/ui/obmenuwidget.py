@@ -61,7 +61,8 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
             QtGui.QIcon.fromTheme('view-conversation-balloon'))
 
         # tree columns
-        #self.treeMenu.header().setResizeMode(self.COL_LABEL, QtGui.QHeaderView.ResizeToContents)
+        self.treeMenu.header().setSectionResizeMode(
+            self.COL_LABEL, QtWidgets.QHeaderView.ResizeToContents)
         self.changed = False
 
         # signal connections
@@ -73,7 +74,8 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
         """
         self.treeMenu.clear()
         self.treeMenu.setColumnCount(6)
-        self.treeMenu.setHeaderLabels(["Label", "Type", "Action", "Execute", "ID", "Icon", "Prompt"])
+        self.treeMenu.setHeaderLabels(
+            ["Label", "Type", "Action", "Execute", "ID", "Icon", "Prompt"])
         self.treeMenu.setSortingEnabled(False)
         self.treeMenu.setAlternatingRowColors(True)
         self.treeMenu.setColumnWidth(self.COL_LABEL, 150)
