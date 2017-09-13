@@ -5,7 +5,8 @@ from ob_menu_qt.ui.aboutwidget import ObAboutWidget
 
 class UiMainWindow(QtWidgets.QMainWindow):
 
-    def __init__(self, version, auto_configure=True, icon_path=None, file_path=None):
+    def __init__(self,
+                 version, auto_configure=True, icon_path=None, file_path=None):
         """
         Constructs the main window
         """
@@ -73,8 +74,8 @@ class UiMainWindow(QtWidgets.QMainWindow):
         # --- Help Menu ---
 
         menuHelp = menu.addMenu("&Help")
+        menuHelp.addAction(self.menuActionAboutQt)
         menuHelp.addAction(self.menuActionAbout)
-
 
     def initActions(self):
         """
@@ -176,6 +177,12 @@ class UiMainWindow(QtWidgets.QMainWindow):
         self.menuActionPipe.setDisabled(True)
         self.menuActionPipe.setStatusTip("Add pipemenu")
 
+        # About Qt
+        self.menuActionAboutQt = QtWidgets.QAction("About Qt", self)
+        self.menuActionAboutQt.setStatusTip("About Qt")
+        self.menuActionAboutQt.triggered.connect(
+            lambda: QtWidgets.QMessageBox.aboutQt(self, "About Qt"))
+
         # About
         self.menuActionAbout = QtWidgets.QAction("About", self)
         self.menuActionAbout.setStatusTip("About")
@@ -213,4 +220,3 @@ class UiMainWindow(QtWidgets.QMainWindow):
         toolbar.addAction(self.menuActionMoveDown)
         toolbar.addSeparator()
         toolbar.addAction(self.menuActionDelete)
-
