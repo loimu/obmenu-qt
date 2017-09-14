@@ -315,7 +315,7 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
         """
         Connects internal widget signals
         """
-        self.treeMenu.itemSelectionChanged.connect(self.load_item)
+        self.treeMenu.itemPressed.connect(self.load_item)
         self.txtLabel.textEdited.connect(self.update_selected_item)
         self.txtID.textEdited.connect(self.update_selected_item)
         self.cmbAction.activated.connect(self.update_selected_item)
@@ -324,11 +324,10 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
         self.btnChangeIcon.clicked.connect(self.change_icon_path)
         self.btnPrompt.clicked.connect(self.update_item_prompt)
 
-    def load_item(self):
+    def load_item(self, item):
         """
         Item pressed slot (loads an item on controls for edition)
         """
-        item = self.treeMenu.currentItem()
         self.txtLabel.setText(item.text(self.COL_LABEL))
         item_type = item.text(self.COL_TYPE)
         selIndex = self.cmbAction.findText(item.text(self.COL_ACTION))
