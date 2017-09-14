@@ -207,7 +207,7 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
             self,
             "Select a configuration file to load",
             QtCore.QDir.home().path(),
-            "Configuration files (*.xml);;All files (*.*)")
+            "Configuration files (*.xml);;All files (*.*)")[0]
 
         if len(file_path):
 
@@ -263,7 +263,7 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
             self,
             title,
             QtCore.QDir.home().path(),
-            "Configuration files (*.xml);;All files (*.*)")
+            "Configuration files (*.xml);;All files (*.*)")[0]
 
         if len(save_file_path):
 
@@ -735,7 +735,7 @@ class ObMenuWidget(Ui_frmObmenu, QtWidgets.QWidget):
         new_icon_path = QtWidgets.QFileDialog.getOpenFileName(
             self,
             "Select the new icon file", "/usr/share/icons",
-            "Images (*.png *.xpm *.jpg)")
+            "Images (*.png *.xpm *.jpg)")[0]
         self.txtIcon.setText(new_icon_path)
         self.update_selected_item()
         self.set_changed()
